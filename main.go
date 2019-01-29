@@ -1,30 +1,29 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
 	"net/http"
+
+	"./models"
+	"./routes"
 )
 
 const PORT = ":8080"
 
 func main() {
-	http.HandleFunc("/", indexRoute)
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./public/"))))
+
+	routes.Posts = make(map[string]*models.Post, 0)
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		routes.HomeHandler(w, r, routes.Posts)
+	})
+
+	http.HandleFunc("/create", routes.CreatePostHandler)
+	http.HandleFunc("/save", routes.SavePost)
 
 	println("Server listen on ", PORT)
 
 	if err := http.ListenAndServe(PORT, nil); err != nil {
 		panic(err)
 	}
-}
-
-func indexRoute(writer http.ResponseWriter, request *http.Request) {
-	template, err := template.ParseFiles("templates/index.html", "templates/header.html", "templates/footer.html")
-
-	if err != nil {
-		fmt.Fprintf(writer, err.Error())
-	}
-
-	template.ExecuteTemplate(writer, "index", nil)
 }

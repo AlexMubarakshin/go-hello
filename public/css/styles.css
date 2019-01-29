@@ -1,0 +1,11 @@
+.main-title {
+    margin-top: 10%; 
+    text-align: center;
+}
+
+.post-container {
+    border: 1px solid #E1E1E1; 
+    border-radius: 4px; 
+    padding: 2.5rem 3rem; 
+    margin-bottom: 1.5rem;
+}
