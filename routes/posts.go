@@ -40,3 +40,20 @@ func SavePost(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/", 301)
 }
+
+func EditPostHandler(w http.ResponseWriter, r *http.Request) {
+	template, err := template.ParseFiles("templates/create.html", "templates/header.html", "templates/footer.html")
+
+	if err != nil {
+		fmt.Fprintf(w, err.Error())
+	}
+
+	id := r.FormValue("id")
+	post, found := Posts[id]
+	if !found {
+		http.NotFound(w, r)
+		return
+	}
+
+	template.ExecuteTemplate(w, "create", post)
+}

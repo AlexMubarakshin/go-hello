@@ -20,6 +20,7 @@ func main() {
 
 	http.HandleFunc("/create", routes.CreatePostHandler)
 	http.HandleFunc("/save", routes.SavePost)
+	http.HandleFunc("/edit", routes.EditPostHandler)
 
 	println("Server listen on ", PORT)
 
